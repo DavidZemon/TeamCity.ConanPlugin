@@ -9,14 +9,14 @@
      <file>
          <source>target/teamcity-plugin.xml</source>
          <outputDirectory>/</outputDirectory>
-     </file> 
+     </file>
   </files>
   <moduleSets>
     <moduleSet>
        <useAllReactorProjects>true</useAllReactorProjects>
        <includes>
-           <include>net.redlion.ci:conanbuildrunner-server</include>
-       </includes> 
+           <include>net.redlion.ci:conanrunner-server</include>
+       </includes>
        <binaries>
            <outputDirectory>server</outputDirectory>
            <unpack>false</unpack>

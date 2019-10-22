@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>conanbuildrunner</artifactId>
+    <artifactId>conanrunner</artifactId>
     <groupId>net.redlion.ci</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
@@ -10,14 +10,14 @@
   <packaging>pom</packaging>
   <properties>
       <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-      <teamcity.conanbuildrunner.plugin.version>snapshot-${maven.build.timestamp}</teamcity.conanbuildrunner.plugin.version>
-      <teamcity.conanbuildrunner.plugin.vendorName>Plugin vendor name</teamcity.conanbuildrunner.plugin.vendorName>
-      <teamcity.conanbuildrunner.plugin.vendorUrl>Plugin vendor URL</teamcity.conanbuildrunner.plugin.vendorUrl>
+      <teamcity.conanrunner.plugin.version>snapshot-${maven.build.timestamp}</teamcity.conanrunner.plugin.version>
+      <teamcity.conanrunner.plugin.vendorName>Plugin vendor name</teamcity.conanrunner.plugin.vendorName>
+      <teamcity.conanrunner.plugin.vendorUrl>Plugin vendor URL</teamcity.conanrunner.plugin.vendorUrl>
   </properties>
   <dependencies>
       <dependency>
            <groupId>net.redlion.ci</groupId>
-           <artifactId>conanbuildrunner-server</artifactId>
+           <artifactId>conanrunner-server</artifactId>
            <version>1.0-SNAPSHOT</version>
       </dependency>
   </dependencies>
@@ -27,7 +27,7 @@
             <groupId>com.google.code.maven-replacer-plugin</groupId>
             <artifactId>replacer</artifactId>
             <version>1.5.2</version>
-            <executions>                
+            <executions>
                 <execution>
                     <phase>process-sources</phase>
                     <goals>
@@ -41,17 +41,17 @@
                 <replacements>
                     <replacement>
                         <token>@Version@</token>
-                        <value>${teamcity.conanbuildrunner.plugin.version}</value>
+                        <value>${teamcity.conanrunner.plugin.version}</value>
                     </replacement>
                     <replacement>
                         <token>@VendorName@</token>
-                        <value>${teamcity.conanbuildrunner.plugin.vendorName}</value>
+                        <value>${teamcity.conanrunner.plugin.vendorName}</value>
                     </replacement>
                     <replacement>
                         <token>@VendorURL@</token>
-                        <value>${teamcity.conanbuildrunner.plugin.vendorUrl}</value>
+                        <value>${teamcity.conanrunner.plugin.vendorUrl}</value>
                     </replacement>
-                </replacements>                        
+                </replacements>
             </configuration>
         </plugin>
         <plugin>
@@ -65,7 +65,7 @@
                   <goal>single</goal>
                 </goals>
                 <configuration>
-                  <finalName>conanbuildrunner</finalName>
+                  <finalName>conanrunner</finalName>
                   <outputDirectory>${project.parent.build.directory}</outputDirectory>
                   <appendAssemblyId>false</appendAssemblyId>
                   <descriptors>
