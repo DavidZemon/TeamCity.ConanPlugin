@@ -13,13 +13,13 @@ public class ConanRunnerRunType extends RunType {
     @NotNull
     private final PluginDescriptor pluginDescriptor;
     @NotNull
-    final private PropertiesProcessor conanPropertiesProcessor;
+    final private PropertiesProcessor propertiesProcessor;
 
     public ConanRunnerRunType(@NotNull final RunTypeRegistry runTypeRegistry,
                               @NotNull final PluginDescriptor pluginDescriptor,
-                              @NotNull final PropertiesProcessor conanPropertiesProcessor) {
+                              @NotNull final PropertiesProcessor propertiesProcessor) {
         this.pluginDescriptor = pluginDescriptor;
-        this.conanPropertiesProcessor = conanPropertiesProcessor;
+        this.propertiesProcessor = propertiesProcessor;
 
         runTypeRegistry.registerRunType(this);
     }
@@ -27,7 +27,7 @@ public class ConanRunnerRunType extends RunType {
     @NotNull
     @Override
     public String getType() {
-        return "RLC_CONAN_BUILD_RUNNER";
+        return ConanConstants.RLC_CONAN_RUNNER_RUN_TYPE;
     }
 
     @NotNull
@@ -45,7 +45,7 @@ public class ConanRunnerRunType extends RunType {
     @Nullable
     @Override
     public PropertiesProcessor getRunnerPropertiesProcessor() {
-        return this.conanPropertiesProcessor;
+        return this.propertiesProcessor;
     }
 
     @Nullable

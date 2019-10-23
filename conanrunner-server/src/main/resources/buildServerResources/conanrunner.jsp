@@ -72,6 +72,26 @@
     </td>
 </tr>
 
+<%-- Conan user --%>
+<tr>
+    <th><label for="${commonStrings.conanUserKey}">Conan user: <l:star/></label></th>
+    <td>
+        <props:textProperty name="${commonStrings.conanUserKey}" className="longField" maxlength="256"/>
+        <span class="smallNote">This is the "user" in the Conan package reference.</span>
+        <span class="error" id="${commonStrings.conanUserKey}_error"></span>
+    </td>
+</tr>
+
+<%-- Conan channel --%>
+<tr>
+    <th><label for="${commonStrings.conanChannelKey}">Conan channel: <l:star/></label></th>
+    <td>
+        <props:textProperty name="${commonStrings.conanChannelKey}" className="longField" maxlength="256"/>
+        <span class="smallNote">This is the "channel" in the Conan package reference.</span>
+        <span class="error" id="${commonStrings.conanChannelKey}_error"></span>
+    </td>
+</tr>
+
 <%-- Docker image --%>
 <l:settingsGroup title="Docker Settings">
     <style>

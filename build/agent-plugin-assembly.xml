@@ -6,23 +6,19 @@
     <format>zip</format>
   </formats>
   <files>
-      <file>
-          <source>target/teamcity-plugin.xml</source>
-          <outputDirectory>/</outputDirectory>
-      </file>
-      <file>
-          <source>target/conanrunner-agent.zip</source>
-          <outputDirectory>/agent/</outputDirectory>
-      </file>
+     <file>
+         <source>../conanrunner-agent/teamcity-plugin.xml</source>
+         <outputDirectory>/</outputDirectory>
+     </file>
   </files>
   <moduleSets>
       <moduleSet>
           <useAllReactorProjects>true</useAllReactorProjects>
           <includes>
-              <include>net.redlion.ci:conanrunner-server</include>
+              <include>net.redlion.ci:conanrunner-agent</include>
           </includes>
           <binaries>
-              <outputDirectory>server</outputDirectory>
+              <outputDirectory>/</outputDirectory>
               <unpack>false</unpack>
               <dependencySets>
                   <dependencySet>

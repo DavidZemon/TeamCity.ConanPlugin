@@ -7,7 +7,7 @@
        default-autowire="constructor">
     <!--suppress SpringBeanConstructorArgInspection -->
     <bean class="net.redlion.ci.ConanRunnerRunType">
-        <constructor-arg>
+        <constructor-arg name="propertiesProcessor">
             <bean class="net.redlion.ci.ConanPropertiesProcessor"/>
         </constructor-arg>
     </bean>

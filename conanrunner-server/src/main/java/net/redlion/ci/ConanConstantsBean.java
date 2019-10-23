@@ -14,6 +14,16 @@ public class ConanConstantsBean {
     }
 
     @NotNull
+    public String getConanUserKey() {
+        return ConanConstants.CONAN_USER_KEY;
+    }
+
+    @NotNull
+    public String getConanChannelKey() {
+        return ConanConstants.CONAN_CHANNEL_KEY;
+    }
+
+    @NotNull
     public String getConanDockerImageNameKey() {
         return ConanConstants.CONAN_DOCKER_IMAGE_NAME_KEY;
     }
