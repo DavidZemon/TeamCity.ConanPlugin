@@ -52,7 +52,7 @@ public class ConanBuildService extends BuildServiceAdapter {
                 throw new RunBuildException(e);
             }
 
-            arguments.addAll(this.getExtraDockerArguments(params.getOrDefault(
+            arguments.addAll(StringUtil.splitCommandArgumentsAndUnquote(params.getOrDefault(
                     ConanConstants.CONAN_DOCKER_PARAMETERS_KEY, ""
             )));
 
@@ -77,25 +77,5 @@ public class ConanBuildService extends BuildServiceAdapter {
             }
         }
         return filePath.toString();
-    }
-
-    @NotNull
-    private List<String> getExtraDockerArguments(@NotNull final String fullArgumentString) {
-        final List<String> extraArgs = new ArrayList<>();
-        Pattern regex = Pattern.compile("[^\\s\"']+|\"([^\"]*)\"|'([^']*)'");
-        Matcher regexMatcher = regex.matcher(fullArgumentString);
-        while (regexMatcher.find()) {
-            if (regexMatcher.group(1) != null) {
-                // Add double-quoted string without the quotes
-                extraArgs.add(regexMatcher.group(1));
-            } else if (regexMatcher.group(2) != null) {
-                // Add single-quoted string without the quotes
-                extraArgs.add(regexMatcher.group(2));
-            } else {
-                // Add unquoted word
-                extraArgs.add(regexMatcher.group());
-            }
-        }
-        return extraArgs;
     }
 }
