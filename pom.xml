@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <teamcity-version>2019.1.3</teamcity-version>
+        <teamcity-version>2019.1.4</teamcity-version>
     </properties>
 
     <repositories>

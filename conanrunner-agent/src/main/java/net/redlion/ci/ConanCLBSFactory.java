@@ -1,11 +1,12 @@
 package net.redlion.ci;
 
 import jetbrains.buildServer.agent.AgentBuildRunnerInfo;
-import jetbrains.buildServer.agent.runner.CommandLineBuildService;
-import jetbrains.buildServer.agent.runner.CommandLineBuildServiceFactory;
+import jetbrains.buildServer.agent.BuildRunnerContext;
+import jetbrains.buildServer.agent.runner.MultiCommandBuildSession;
+import jetbrains.buildServer.agent.runner.MultiCommandBuildSessionFactory;
 import org.jetbrains.annotations.NotNull;
 
-public class ConanCLBSFactory implements CommandLineBuildServiceFactory {
+public class ConanCLBSFactory implements MultiCommandBuildSessionFactory {
     @NotNull
     private final ConanAgentBuildRunnerInfo agentBuildRunnerInfo;
 
@@ -14,11 +15,13 @@ public class ConanCLBSFactory implements CommandLineBuildServiceFactory {
     }
 
     @NotNull
-    public CommandLineBuildService createService() {
-        return new ConanBuildService();
+    @Override
+    public MultiCommandBuildSession createSession(@NotNull final BuildRunnerContext runnerContext) {
+        return new ConanBuildService(runnerContext);
     }
 
     @NotNull
+    @Override
     public AgentBuildRunnerInfo getBuildRunnerInfo() {
         return this.agentBuildRunnerInfo;
     }
