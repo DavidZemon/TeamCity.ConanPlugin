@@ -3,11 +3,11 @@ package net.redlion.ci;
 import jetbrains.buildServer.RunBuildException;
 import jetbrains.buildServer.agent.runner.BuildServiceAdapter;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
-import jetbrains.buildServer.agent.runner.SimpleProgramCommandLine;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ConanBuildService extends BuildServiceAdapter {
     @NotNull
@@ -41,9 +39,12 @@ public class ConanBuildService extends BuildServiceAdapter {
             arguments.addAll(Arrays.asList(
                     "run",
                     "--rm",
-                    "--volume", checkoutDirectory + ":" + checkoutDirectory,
-                    "--workdir", cwd
+                    "--label", "jetbrains.teamcity.buildId=" + params.get("teamcity.build.id"),
+                    "--workdir", cwd,
+                    "--volume", checkoutDirectory + ":" + checkoutDirectory
             ));
+
+            this.addCommonDockerMounts(arguments);
 
             arguments.add("--env-file");
             try {
@@ -77,5 +78,23 @@ public class ConanBuildService extends BuildServiceAdapter {
             }
         }
         return filePath.toString();
+    }
+
+    private void addCommonDockerMounts(@NotNull final List<String> arguments) {
+        final List<File> writable = Arrays.asList(
+                this.getAgentTempDirectory(),
+                this.getBuildTempDirectory(),
+                this.getAgentConfiguration().getSystemDirectory()
+        );
+        final List<File> readOnly = Arrays.asList(
+                this.getAgentConfiguration().getAgentHomeDirectory(),
+                this.getAgentConfiguration().getAgentToolsDirectory(),
+                this.getAgentConfiguration().getAgentPluginsDirectory()
+        );
+
+        writable.stream().map(File::getAbsolutePath)
+                .forEach(f -> arguments.addAll(Arrays.asList("--volume", f + ":" + f)));
+        readOnly.stream().map(File::getAbsolutePath)
+                .forEach(f -> arguments.addAll(Arrays.asList("--volume", f + ":" + f + ":ro")));
     }
 }
