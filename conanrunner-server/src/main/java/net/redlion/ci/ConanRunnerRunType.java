@@ -51,13 +51,13 @@ public class ConanRunnerRunType extends RunType {
     @Nullable
     @Override
     public String getEditRunnerParamsJspFilePath() {
-        return this.pluginDescriptor.getPluginResourcesPath("example.jsp");
+        return this.pluginDescriptor.getPluginResourcesPath("conanrunner.jsp");
     }
 
     @Nullable
     @Override
     public String getViewRunnerParamsJspFilePath() {
-        return this.pluginDescriptor.getPluginResourcesPath("example.jsp");
+        return null; // TODO
     }
 
     @Nullable
