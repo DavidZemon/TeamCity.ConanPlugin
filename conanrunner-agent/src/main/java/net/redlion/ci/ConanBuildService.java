@@ -5,7 +5,6 @@ import jetbrains.buildServer.agent.BuildFinishedStatus;
 import jetbrains.buildServer.agent.BuildRunnerContext;
 import jetbrains.buildServer.agent.runner.CommandExecution;
 import jetbrains.buildServer.agent.runner.MultiCommandBuildSession;
-import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,35 +17,50 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static jetbrains.buildServer.messages.DefaultMessagesInfo.BLOCK_TYPE_BUILD_STEP;
+import static net.redlion.ci.ConanConstants.*;
+
 public class ConanBuildService extends SimpleBuildServiceAdapter implements MultiCommandBuildSession {
     @NotNull
-    private final LinkedList<ProgramCommandLine> commands = new LinkedList<>();
+    private final LinkedList<Activity> activities = new LinkedList<>();
+    @NotNull
+    private final Map<String, String> params;
 
     public ConanBuildService(@NotNull final BuildRunnerContext runnerContext) {
         super(runnerContext);
+        this.params = this.getRunnerParameters();
     }
 
     @Override
     public void sessionStarted() throws RunBuildException {
+        if (this.params.containsKey(CONAN_DOCKER_IMAGE_NAME_KEY)
+                && this.params.containsKey(CONAN_DOCKER_PULL_ENABLED_KEY)) {
+            this.addDockerPullCommand();
+        }
+        this.addConanCreateCommand();
+    }
+
+    private void addDockerPullCommand() {
+        final List<String> args = Arrays.asList("pull", this.params.get(CONAN_DOCKER_IMAGE_NAME_KEY));
+        this.activities.add(new Activity("Pull Docker image", "Ensure the Docker image is up-to-date",
+                BLOCK_TYPE_BUILD_STEP, this.createProgramCommandline("docker", args)));
+    }
+
+    private void addConanCreateCommand() throws RunBuildException {
         final String checkoutDirectory = this.getCheckoutDirectory().getAbsolutePath();
         final String cwd = this.getWorkingDirectory().getAbsolutePath();
 
-        final Map<String, String> params = this.getRunnerParameters();
-
         final List<String> arguments = new ArrayList<>();
         final String command;
-        final String conanCommand = params.getOrDefault(ConanConstants.CONAN_COMMAND_KEY, "conan");
+        final String conanCommand = this.params.getOrDefault(CONAN_COMMAND_KEY, "conan");
 
-        final String dockerImageName = params.get(ConanConstants.CONAN_DOCKER_IMAGE_NAME_KEY);
-        if (StringUtil.isEmptyOrSpaces(dockerImageName)) {
-            command = conanCommand;
-        } else {
+        if (this.params.containsKey(CONAN_DOCKER_IMAGE_NAME_KEY)) {
             command = "docker";
 
             arguments.addAll(Arrays.asList(
                     "run",
                     "--rm",
-                    "--label", "jetbrains.teamcity.buildId=" + params.get("teamcity.build.id"),
+                    "--label", "jetbrains.teamcity.buildId=" + this.params.get("teamcity.build.id"),
                     "--workdir", cwd,
                     "--volume", checkoutDirectory + ":" + checkoutDirectory
             ));
@@ -60,29 +74,34 @@ public class ConanBuildService extends SimpleBuildServiceAdapter implements Mult
                 throw new RunBuildException(e);
             }
 
-            arguments.addAll(StringUtil.splitCommandArgumentsAndUnquote(params.getOrDefault(
-                    ConanConstants.CONAN_DOCKER_PARAMETERS_KEY, ""
-            )));
+            if (this.params.containsKey(CONAN_DOCKER_PARAMETERS_KEY)) {
+                arguments.addAll(StringUtil.splitCommandArgumentsAndUnquote(this.params.get(
+                        CONAN_DOCKER_PARAMETERS_KEY
+                )));
+            }
 
-            arguments.add(dockerImageName);
+            arguments.add(this.params.get(CONAN_DOCKER_IMAGE_NAME_KEY));
 
             arguments.add(conanCommand);
+        } else {
+            command = conanCommand;
         }
 
         arguments.add("create");
-        arguments.add(params.getOrDefault(ConanConstants.CONAN_RECIPE_PATH_KEY, "."));
-        arguments.add(params.get(ConanConstants.CONAN_USER_KEY) + "/" + params.get(ConanConstants.CONAN_CHANNEL_KEY));
+        arguments.add(this.params.getOrDefault(CONAN_RECIPE_PATH_KEY, "."));
+        arguments.add(this.params.get(CONAN_USER_KEY) + "/" + this.params.get(CONAN_CHANNEL_KEY));
 
-        this.commands.add(this.createProgramCommandline(command, arguments));
+        this.activities.add(new Activity("Conan create", "Create the Conan artifact in the local cache",
+                BLOCK_TYPE_BUILD_STEP, this.createProgramCommandline(command, arguments)));
     }
 
     @Nullable
     @Override
     public CommandExecution getNextCommand() {
-        if (this.commands.isEmpty()) {
+        if (this.activities.isEmpty()) {
             return null;
         } else {
-            return new CommandExecutionAdapter(this, this.commands.pop());
+            return new CommandExecutionAdapter(this, this.activities.pop());
         }
     }
 

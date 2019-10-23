@@ -11,23 +11,26 @@ public class CommandExecutionAdapter implements CommandExecution {
     @NotNull
     private final SimpleBuildServiceAdapter buildService;
     @NotNull
-    private final ProgramCommandLine programCommandLine;
+    private final Activity activity;
 
     public CommandExecutionAdapter(@NotNull final SimpleBuildServiceAdapter buildService,
-                                   @NotNull final ProgramCommandLine programCommandLine) {
+                                   @NotNull final Activity activity) {
         this.buildService = buildService;
-        this.programCommandLine = programCommandLine;
+        this.activity = activity;
     }
 
 
     @NotNull
     @Override
     public ProgramCommandLine makeProgramCommandLine() {
-        return this.programCommandLine;
+        return this.activity.getCommandLine();
     }
 
     @Override
     public void beforeProcessStarted() {
+        this.buildService.getBuild().getBuildLogger().activityStarted(
+                this.activity.getName(), this.activity.getDescription(), this.activity.getType()
+        );
     }
 
     @NotNull
@@ -59,5 +62,8 @@ public class CommandExecutionAdapter implements CommandExecution {
     @Override
     public void processFinished(final int exitCode) {
         this.buildService.getListeners().forEach(l -> l.processFinished(exitCode));
+        this.buildService.getBuild().getBuildLogger().activityFinished(
+                this.activity.getName(), this.activity.getType()
+        );
     }
 }
