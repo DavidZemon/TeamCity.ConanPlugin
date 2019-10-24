@@ -11,6 +11,7 @@ public enum ConanConstants {
     public static final String CONAN_RECIPE_PATH_KEY = "plugin.conan.recipeFilePath";
     public static final String CONAN_USER_KEY = "plugin.conan.user";
     public static final String CONAN_CHANNEL_KEY = "plugin.conan.channel";
+    public static final String CONAN_EXTRA_CONAN_OPTIONS_KEY = "plugin.conan.extraConanOptions";
     public static final String CONAN_OPTIONS_PATH_KEY = "plugin.conan.optionsFilePath";
     public static final String CONAN_DOCKER_IMAGE_NAME_KEY = "plugin.conan.dockerImageName";
     public static final String CONAN_DOCKER_PLATFORM_KEY = "plugin.conan.dockerImagePlatform";

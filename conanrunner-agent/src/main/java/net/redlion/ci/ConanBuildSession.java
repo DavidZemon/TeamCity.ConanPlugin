@@ -57,7 +57,7 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
             throw new RunBuildException(String.format("Conan options file was provided (%s) but not found at `%s`.",
                     conanOptionsPath, absConanOptsPath));
         } else {
-            this.addConanCreateCommand(Collections.emptyList());
+            this.activitiesToRun.add(this.appendConanCreateActivity(Collections.emptyList()));
         }
     }
 
@@ -137,7 +137,7 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
                     extraArgs.add(this.toCliString(entry));
                 }
             }
-            this.addConanCreateCommand(extraArgs);
+            this.activitiesToRun.add(this.appendConanCreateActivity(extraArgs));
         }
     }
 
@@ -155,7 +155,7 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
                 BLOCK_TYPE_BUILD_STEP, this.createProgramCommandline("docker", args)));
     }
 
-    private void addConanCreateCommand(@NotNull final List<String> extraArgs) throws RunBuildException {
+    private Activity appendConanCreateActivity(@NotNull final List<String> extraArgs) throws RunBuildException {
         final String checkoutDirectory = this.getCheckoutDirectory().getAbsolutePath();
         final String cwd = this.getWorkingDirectory().getAbsolutePath();
 
@@ -202,6 +202,12 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
 
         arguments.addAll(extraArgs);
 
+        if (this.params.containsKey(CONAN_EXTRA_CONAN_OPTIONS_KEY)) {
+            arguments.addAll(StringUtil.splitCommandArgumentsAndUnquote(
+                    this.params.get(CONAN_EXTRA_CONAN_OPTIONS_KEY)
+            ));
+        }
+
         final String description;
         if (extraArgs.isEmpty()) {
             description = "Default settings and options";
@@ -209,8 +215,8 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
             description = StringUtil.join(" ", extraArgs);
         }
 
-        this.activitiesToRun.add(new Activity("Conan create", description, BLOCK_TYPE_BUILD_STEP,
-                this.createProgramCommandline(command, arguments)));
+        return new Activity("Conan create", description, BLOCK_TYPE_BUILD_STEP,
+                this.createProgramCommandline(command, arguments));
     }
 
     @NotNull

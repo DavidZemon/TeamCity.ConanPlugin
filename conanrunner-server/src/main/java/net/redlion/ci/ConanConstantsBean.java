@@ -24,6 +24,11 @@ public class ConanConstantsBean {
     }
 
     @NotNull
+    public String getConanExtraConanOptionsKey() {
+        return ConanConstants.CONAN_EXTRA_CONAN_OPTIONS_KEY;
+    }
+
+    @NotNull
     public String getConanOptionsPathKey() {
         return ConanConstants.CONAN_OPTIONS_PATH_KEY;
     }

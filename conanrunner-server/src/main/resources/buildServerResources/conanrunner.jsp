@@ -106,6 +106,22 @@
     </td>
 </tr>
 
+<%-- Extra Conan options --%>
+<tr class="advancedSetting">
+    <th>
+        <label for="${commonStrings.conanExtraConanOptionsKey}">Additional Conan settings and options: </label>
+    </th>
+    <td>
+        <c:set var="propName" value="${commonStrings.conanExtraConanOptionsKey}"/>
+        <props:textarea name="prop:${propName}" textAreaName="prop:${propName}"
+                        value="${propertiesBean.properties[propName]}"
+                        linkTitle="Add extra settings and options" cols="70" rows="3"
+                        expanded="${not empty propertiesBean.properties[propName]}" className="longField"/>
+        <span class="smallNote">Extra Conan settings and options that will be used for each build, even in multi-build
+            projects using a <code>conanopts.json</code> file.</span>
+    </td>
+</tr>
+
 <%-- Docker image --%>
 <l:settingsGroup title="Docker Settings">
     <style>
