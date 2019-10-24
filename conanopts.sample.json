@@ -1,0 +1,34 @@
+[
+  {
+    "settings": {
+      "build_type": "Release"
+    },
+    "options": {
+      "public_docs": false
+    }
+  },
+  {
+    "settings": {
+      "build_type": "Debug"
+    },
+    "options": {
+      "public_docs": false
+    }
+  },
+  {
+    "settings": {
+      "build_type": "Release"
+    },
+    "options": {
+      "public_docs": true
+    }
+  },
+  {
+    "settings": {
+      "build_type": "Debug"
+    },
+    "options": {
+      "public_docs": true
+    }
+  }
+]

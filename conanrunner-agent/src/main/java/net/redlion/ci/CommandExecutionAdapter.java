@@ -4,6 +4,7 @@ import jetbrains.buildServer.agent.runner.CommandExecution;
 import jetbrains.buildServer.agent.runner.ProgramCommandLine;
 import jetbrains.buildServer.agent.runner.TerminationAction;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 
@@ -12,6 +13,9 @@ public class CommandExecutionAdapter implements CommandExecution {
     private final SimpleBuildServiceAdapter buildService;
     @NotNull
     private final Activity activity;
+    @Nullable
+    private Integer exitCode = null;
+    private boolean interrupted = false;
 
     public CommandExecutionAdapter(@NotNull final SimpleBuildServiceAdapter buildService,
                                    @NotNull final Activity activity) {
@@ -19,6 +23,14 @@ public class CommandExecutionAdapter implements CommandExecution {
         this.activity = activity;
     }
 
+    @Nullable
+    public Integer getExitCode() {
+        return this.exitCode;
+    }
+
+    public boolean isInterrupted() {
+        return this.interrupted;
+    }
 
     @NotNull
     @Override
@@ -36,6 +48,7 @@ public class CommandExecutionAdapter implements CommandExecution {
     @NotNull
     @Override
     public TerminationAction interruptRequested() {
+        this.interrupted = true;
         return this.buildService.interrupt();
     }
 
@@ -61,6 +74,7 @@ public class CommandExecutionAdapter implements CommandExecution {
 
     @Override
     public void processFinished(final int exitCode) {
+        this.exitCode = exitCode;
         this.buildService.getListeners().forEach(l -> l.processFinished(exitCode));
         this.buildService.getBuild().getBuildLogger().activityFinished(
                 this.activity.getName(), this.activity.getType()

@@ -20,7 +20,7 @@ public class ConanAgentBuildRunnerInfo implements AgentBuildRunnerInfo {
     }
 
     public boolean canRun(@NotNull final BuildAgentConfiguration agentConfiguration) {
-        boolean canRun;
+        final boolean canRun;
         final Map<String, String> configParams = agentConfiguration.getConfigurationParameters();
         if (!StringUtil.isEmptyOrSpaces(configParams.getOrDefault(ConanConstants.CONAN_DOCKER_IMAGE_NAME_KEY, null))) {
             canRun = this.executableIsValid("docker");

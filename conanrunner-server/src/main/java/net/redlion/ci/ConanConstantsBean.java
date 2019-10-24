@@ -24,6 +24,16 @@ public class ConanConstantsBean {
     }
 
     @NotNull
+    public String getConanOptionsPathKey() {
+        return ConanConstants.CONAN_OPTIONS_PATH_KEY;
+    }
+
+    @NotNull
+    public String getConanDefaultOptionsFileName() {
+        return ConanConstants.CONAN_DEFAULT_OPTIONS_FILE_NAME;
+    }
+
+    @NotNull
     public String getConanDockerImageNameKey() {
         return ConanConstants.CONAN_DOCKER_IMAGE_NAME_KEY;
     }

@@ -1,0 +1,36 @@
+{
+  "$id": "https://ci.redlion.net/conanopts.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Conan options",
+  "description": "List of Conan settings and options used for building multiple Conan artifacts",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "settings": {
+        "type": "object",
+        "properties": {
+          ".*": {
+            "type": [
+              "boolean",
+              "number",
+              "string"
+            ]
+          }
+        }
+      },
+      "options": {
+        "type": "object",
+        "properties": {
+          ".*": {
+            "type": [
+              "boolean",
+              "number",
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

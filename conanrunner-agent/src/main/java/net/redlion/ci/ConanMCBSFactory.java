@@ -6,18 +6,18 @@ import jetbrains.buildServer.agent.runner.MultiCommandBuildSession;
 import jetbrains.buildServer.agent.runner.MultiCommandBuildSessionFactory;
 import org.jetbrains.annotations.NotNull;
 
-public class ConanCLBSFactory implements MultiCommandBuildSessionFactory {
+public class ConanMCBSFactory implements MultiCommandBuildSessionFactory {
     @NotNull
     private final ConanAgentBuildRunnerInfo agentBuildRunnerInfo;
 
-    public ConanCLBSFactory(@NotNull final ConanAgentBuildRunnerInfo agentBuildRunnerInfo) {
+    public ConanMCBSFactory(@NotNull final ConanAgentBuildRunnerInfo agentBuildRunnerInfo) {
         this.agentBuildRunnerInfo = agentBuildRunnerInfo;
     }
 
     @NotNull
     @Override
     public MultiCommandBuildSession createSession(@NotNull final BuildRunnerContext runnerContext) {
-        return new ConanBuildService(runnerContext);
+        return new ConanBuildSession(runnerContext);
     }
 
     @NotNull

@@ -65,7 +65,8 @@
 
 <%-- Recipe path --%>
 <tr class="advancedSetting">
-    <th><label for="${commonStrings.conanRecipePathKey}">Path to recipe (conanfile.py/conanfile.txt): </label></th>
+    <th><label for="${commonStrings.conanRecipePathKey}">Path to recipe
+        (<code>conanfile.py</code>/<code>conanfile.txt</code>): </label></th>
     <td>
         <props:textProperty name="${commonStrings.conanRecipePathKey}" className="longField" maxlength="512"/>
         <span class="smallNote">Enter path to Conan recipe relative to working directory or leave blank to use '.' .</span>
@@ -89,6 +90,19 @@
         <props:textProperty name="${commonStrings.conanChannelKey}" className="longField" maxlength="256"/>
         <span class="smallNote">This is the "channel" in the Conan package reference.</span>
         <span class="error" id="${commonStrings.conanChannelKey}_error"></span>
+    </td>
+</tr>
+
+<%-- Conan options path --%>
+<tr class="advancedSetting">
+    <th>
+        <label for="${commonStrings.conanOptionsPathKey}">Path to Conan options file
+            (<code>${commonStrings.conanDefaultOptionsFileName}</code>):</label>
+    </th>
+    <td>
+        <props:textProperty name="${commonStrings.conanOptionsPathKey}" className="longField" maxlength="512"/>
+        <span class="smallNote">Enter path to a Conan options file, relative to working directory or leave blank to use
+            the default. Runtime error will be thrown if a value is provided by the file cannot be found.</span>
     </td>
 </tr>
 
