@@ -20,7 +20,7 @@ public class ConanAgentBuildRunnerInfo implements AgentBuildRunnerInfo {
     }
 
     public boolean canRun(@NotNull final BuildAgentConfiguration agentConfiguration) {
-        final boolean canRun;
+        final boolean             canRun;
         final Map<String, String> configParams = agentConfiguration.getConfigurationParameters();
         if (!StringUtil.isEmptyOrSpaces(configParams.getOrDefault(ConanConstants.CONAN_DOCKER_IMAGE_NAME_KEY, null))) {
             canRun = this.executableIsValid("docker");
@@ -38,8 +38,8 @@ public class ConanAgentBuildRunnerInfo implements AgentBuildRunnerInfo {
             return executable.canExecute();
         } else {
             return Stream.of(System.getenv("PATH").split(Pattern.quote(File.pathSeparator)))
-                    .map(Paths::get)
-                    .anyMatch(path -> Files.isExecutable(path.resolve(executable.toPath())));
+                .map(Paths::get)
+                .anyMatch(path -> Files.isExecutable(path.resolve(executable.toPath())));
         }
     }
 }

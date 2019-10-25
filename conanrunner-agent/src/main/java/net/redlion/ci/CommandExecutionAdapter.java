@@ -12,10 +12,10 @@ public class CommandExecutionAdapter implements CommandExecution {
     @NotNull
     private final SimpleBuildServiceAdapter buildService;
     @NotNull
-    private final Activity activity;
+    private final Activity                  activity;
     @Nullable
-    private Integer exitCode = null;
-    private boolean interrupted = false;
+    private       Integer                   exitCode    = null;
+    private       boolean                   interrupted = false;
 
     public CommandExecutionAdapter(@NotNull final SimpleBuildServiceAdapter buildService,
                                    @NotNull final Activity activity) {
@@ -41,7 +41,7 @@ public class CommandExecutionAdapter implements CommandExecution {
     @Override
     public void beforeProcessStarted() {
         this.buildService.getBuild().getBuildLogger().activityStarted(
-                this.activity.getName(), this.activity.getDescription(), this.activity.getType()
+            this.activity.getName(), this.activity.getDescription(), this.activity.getType()
         );
     }
 
@@ -77,7 +77,7 @@ public class CommandExecutionAdapter implements CommandExecution {
         this.exitCode = exitCode;
         this.buildService.getListeners().forEach(l -> l.processFinished(exitCode));
         this.buildService.getBuild().getBuildLogger().activityFinished(
-                this.activity.getName(), this.activity.getType()
+            this.activity.getName(), this.activity.getType()
         );
     }
 }

@@ -11,6 +11,8 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ConanArguments {
-    @Nullable private Map<String, Object> settings;
-    @Nullable private Map<String, Object> options;
+    @Nullable
+    private Map<String, Object> settings;
+    @Nullable
+    private Map<String, Object> options;
 }

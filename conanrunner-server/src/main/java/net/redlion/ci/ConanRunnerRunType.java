@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class ConanRunnerRunType extends RunType {
     @NotNull
-    private final PluginDescriptor pluginDescriptor;
+    private final PluginDescriptor    pluginDescriptor;
     @NotNull
     final private PropertiesProcessor propertiesProcessor;
 
@@ -73,7 +73,7 @@ public class ConanRunnerRunType extends RunType {
 
     @NotNull
     @Override
-    public List<Requirement> getRunnerSpecificRequirements(@NotNull Map<String, String> runParameters) {
+    public List<Requirement> getRunnerSpecificRequirements(@NotNull final Map<String, String> runParameters) {
         final List<Requirement> requirements = new ArrayList<>();
         if (!StringUtil.isEmptyOrSpaces(runParameters.getOrDefault(ConanConstants.CONAN_DOCKER_IMAGE_NAME_KEY, null))) {
             requirements.add(new Requirement("docker.server.version", null, RequirementType.EXISTS));

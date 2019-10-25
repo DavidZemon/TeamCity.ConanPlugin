@@ -5,10 +5,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
        default-autowire="constructor">
-    <!--suppress SpringBeanConstructorArgInspection -->
-    <bean class="net.redlion.ci.ConanRunnerRunType">
-        <constructor-arg name="propertiesProcessor">
-            <bean class="net.redlion.ci.ConanPropertiesProcessor"/>
-        </constructor-arg>
-    </bean>
+  <!--suppress SpringBeanConstructorArgInspection -->
+  <bean class="net.redlion.ci.ConanRunnerRunType">
+    <constructor-arg name="propertiesProcessor">
+      <bean class="net.redlion.ci.ConanPropertiesProcessor"/>
+    </constructor-arg>
+  </bean>
 </beans>

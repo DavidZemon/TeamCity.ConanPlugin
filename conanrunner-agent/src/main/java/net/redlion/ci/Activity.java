@@ -13,11 +13,11 @@ import org.jetbrains.annotations.NotNull;
 @ToString
 public class Activity {
     @NotNull
-    private final String name;
+    private final String             name;
     @NotNull
-    private final String description;
+    private final String             description;
     @NotNull
-    private final String type;
+    private final String             type;
     @NotNull
     private final ProgramCommandLine commandLine;
 }

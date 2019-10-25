@@ -19,7 +19,7 @@ public abstract class SimpleBuildServiceAdapter implements MultiCommandBuildSess
     @NotNull
     private final BuildRunnerContext runnerContext;
     @NotNull
-    private final String flowId = FlowGenerator.generateNewFlow();
+    private final String             flowId = FlowGenerator.generateNewFlow();
 
     public SimpleBuildServiceAdapter(@NotNull final BuildRunnerContext runnerContext) {
         this.runnerContext = runnerContext;

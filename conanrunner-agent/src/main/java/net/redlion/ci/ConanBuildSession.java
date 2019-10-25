@@ -23,17 +23,17 @@ import static net.redlion.ci.ConanConstants.*;
 
 public class ConanBuildSession extends SimpleBuildServiceAdapter implements MultiCommandBuildSession {
     @NotNull
-    private static final Gson GSON = new Gson();
+    private static final Gson GSON            = new Gson();
     @NotNull
     private static final Type CONAN_OPTS_TYPE = new TypeToken<ArrayList<ConanArguments>>() {
     }.getType();
 
     @NotNull
-    private final LinkedList<Activity> activitiesToRun = new LinkedList<>();
+    private final LinkedList<Activity>                activitiesToRun = new LinkedList<>();
     @NotNull
-    private final LinkedList<CommandExecutionAdapter> sentCommands = new LinkedList<>();
+    private final LinkedList<CommandExecutionAdapter> sentCommands    = new LinkedList<>();
     @NotNull
-    private final Map<String, String> params;
+    private final Map<String, String>                 params;
 
     public ConanBuildSession(@NotNull final BuildRunnerContext runnerContext) {
         super(runnerContext);
@@ -43,19 +43,19 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
     @Override
     public void sessionStarted() throws RunBuildException {
         if (this.params.containsKey(CONAN_DOCKER_IMAGE_NAME_KEY)
-                && this.params.containsKey(CONAN_DOCKER_PULL_ENABLED_KEY)) {
+            && this.params.containsKey(CONAN_DOCKER_PULL_ENABLED_KEY)) {
             this.addDockerPullCommand();
         }
 
         final String conanOptionsPath = this.params.getOrDefault(CONAN_OPTIONS_PATH_KEY,
-                CONAN_DEFAULT_OPTIONS_FILE_NAME);
+            CONAN_DEFAULT_OPTIONS_FILE_NAME);
 
         final Path absConanOptsPath = this.getWorkingDirectory().toPath().resolve(conanOptionsPath).toAbsolutePath();
         if (Files.exists(absConanOptsPath)) {
             this.addCommandsFromConanOptionsFile(absConanOptsPath);
         } else if (this.params.containsKey(CONAN_OPTIONS_PATH_KEY)) {
             throw new RunBuildException(String.format("Conan options file was provided (%s) but not found at `%s`.",
-                    conanOptionsPath, absConanOptsPath));
+                conanOptionsPath, absConanOptsPath));
         } else {
             this.activitiesToRun.add(this.appendConanCreateActivity(Collections.emptyList()));
         }
@@ -65,7 +65,7 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
         final String key = entry.getKey();
         if (null == entry.getValue()) {
             throw new RunBuildException(String.format("Null values are not allowed in Conan options files (key=%s).",
-                    key));
+                key));
         }
 
         final Object value = entry.getValue();
@@ -119,7 +119,7 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
 
         if (conanArgumentsList.isEmpty()) {
             throw new RunBuildException(String.format(
-                    "Conan options file (%s) exists but contains an empty array. No builds to run.", absConanOptsPath
+                "Conan options file (%s) exists but contains an empty array. No builds to run.", absConanOptsPath
             ));
         }
 
@@ -152,26 +152,26 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
     private void addDockerPullCommand() {
         final List<String> args = Arrays.asList("pull", this.params.get(CONAN_DOCKER_IMAGE_NAME_KEY));
         this.activitiesToRun.add(new Activity("Pull Docker image", "Ensure the Docker image is up-to-date",
-                BLOCK_TYPE_BUILD_STEP, this.createProgramCommandline("docker", args)));
+            BLOCK_TYPE_BUILD_STEP, this.createProgramCommandline("docker", args)));
     }
 
     private Activity appendConanCreateActivity(@NotNull final List<String> extraArgs) throws RunBuildException {
         final String checkoutDirectory = this.getCheckoutDirectory().getAbsolutePath();
-        final String cwd = this.getWorkingDirectory().getAbsolutePath();
+        final String cwd               = this.getWorkingDirectory().getAbsolutePath();
 
-        final List<String> arguments = new ArrayList<>();
-        final String command;
-        final String conanCommand = this.params.getOrDefault(CONAN_COMMAND_KEY, "conan");
+        final List<String> arguments    = new ArrayList<>();
+        final String       command;
+        final String       conanCommand = this.params.getOrDefault(CONAN_COMMAND_KEY, "conan");
 
         if (this.params.containsKey(CONAN_DOCKER_IMAGE_NAME_KEY)) {
             command = "docker";
 
             arguments.addAll(Arrays.asList(
-                    "run",
-                    "--rm",
-                    "--label", "jetbrains.teamcity.buildId=" + this.params.get("teamcity.build.id"),
-                    "--workdir", cwd,
-                    "--volume", checkoutDirectory + ":" + checkoutDirectory
+                "run",
+                "--rm",
+                "--label", "jetbrains.teamcity.buildId=" + this.params.get("teamcity.build.id"),
+                "--workdir", cwd,
+                "--volume", checkoutDirectory + ":" + checkoutDirectory
             ));
 
             this.addCommonDockerMounts(arguments);
@@ -185,7 +185,7 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
 
             if (this.params.containsKey(CONAN_DOCKER_PARAMETERS_KEY)) {
                 arguments.addAll(StringUtil.splitCommandArgumentsAndUnquote(this.params.get(
-                        CONAN_DOCKER_PARAMETERS_KEY
+                    CONAN_DOCKER_PARAMETERS_KEY
                 )));
             }
 
@@ -204,7 +204,7 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
 
         if (this.params.containsKey(CONAN_EXTRA_CONAN_OPTIONS_KEY)) {
             arguments.addAll(StringUtil.splitCommandArgumentsAndUnquote(
-                    this.params.get(CONAN_EXTRA_CONAN_OPTIONS_KEY)
+                this.params.get(CONAN_EXTRA_CONAN_OPTIONS_KEY)
             ));
         }
 
@@ -216,7 +216,7 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
         }
 
         return new Activity("Conan create", description, BLOCK_TYPE_BUILD_STEP,
-                this.createProgramCommandline(command, arguments));
+            this.createProgramCommandline(command, arguments));
     }
 
     @NotNull
@@ -232,19 +232,19 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
 
     private void addCommonDockerMounts(@NotNull final List<String> arguments) {
         final List<File> writable = Arrays.asList(
-                this.getAgentTempDirectory(),
-                this.getBuildTempDirectory(),
-                this.getAgentConfiguration().getSystemDirectory()
+            this.getAgentTempDirectory(),
+            this.getBuildTempDirectory(),
+            this.getAgentConfiguration().getSystemDirectory()
         );
         final List<File> readOnly = Arrays.asList(
-                this.getAgentConfiguration().getAgentHomeDirectory(),
-                this.getAgentConfiguration().getAgentToolsDirectory(),
-                this.getAgentConfiguration().getAgentPluginsDirectory()
+            this.getAgentConfiguration().getAgentHomeDirectory(),
+            this.getAgentConfiguration().getAgentToolsDirectory(),
+            this.getAgentConfiguration().getAgentPluginsDirectory()
         );
 
         writable.stream().map(File::getAbsolutePath)
-                .forEach(f -> arguments.addAll(Arrays.asList("--volume", f + ":" + f)));
+            .forEach(f -> arguments.addAll(Arrays.asList("--volume", f + ":" + f)));
         readOnly.stream().map(File::getAbsolutePath)
-                .forEach(f -> arguments.addAll(Arrays.asList("--volume", f + ":" + f + ":ro")));
+            .forEach(f -> arguments.addAll(Arrays.asList("--volume", f + ":" + f + ":ro")));
     }
 }
