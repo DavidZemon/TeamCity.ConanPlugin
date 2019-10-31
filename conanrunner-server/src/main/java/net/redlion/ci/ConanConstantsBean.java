@@ -14,6 +14,11 @@ public class ConanConstantsBean {
     }
 
     @NotNull
+    public String getApplicationNameAndVersionKey() {
+        return ConanConstants.CONAN_APP_NAME_AND_VERSION_KEY;
+    }
+
+    @NotNull
     public String getConanUserKey() {
         return ConanConstants.CONAN_USER_KEY;
     }

@@ -8,7 +8,8 @@ public enum ConanConstants {
 
     // Build property keys
     public static final String CONAN_COMMAND_KEY             = "plugin.conan.command";
-    public static final String CONAN_RECIPE_PATH_KEY         = "plugin.conan.recipeFilePath";
+    public static final String CONAN_RECIPE_PATH_KEY          = "plugin.conan.recipeFilePath";
+    public static final String CONAN_APP_NAME_AND_VERSION_KEY = "plugin.conan.appNameAndVersion";
     public static final String CONAN_USER_KEY                = "plugin.conan.user";
     public static final String CONAN_CHANNEL_KEY             = "plugin.conan.channel";
     public static final String CONAN_EXTRA_CONAN_OPTIONS_KEY = "plugin.conan.extraConanOptions";

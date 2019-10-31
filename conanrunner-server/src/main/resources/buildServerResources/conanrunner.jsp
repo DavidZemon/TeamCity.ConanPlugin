@@ -73,6 +73,16 @@
   </td>
 </tr>
 
+<%-- App name & version--%>
+<tr class="advancedSetting">
+  <th><label for="${commonStrings.applicationNameAndVersionKey}">Application name and version: </label></th>
+  <td>
+    <props:textProperty name="${commonStrings.applicationNameAndVersionKey}" className="longField" maxlength="256"/>
+    <span class="smallNote">This is the name and version in the Conan package reference, such as
+      "openssl/1.0.2r".</span>
+  </td>
+</tr>
+
 <%-- Conan user --%>
 <tr>
   <th><label for="${commonStrings.conanUserKey}">Conan user: <l:star/></label></th>

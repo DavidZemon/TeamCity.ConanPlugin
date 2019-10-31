@@ -198,7 +198,13 @@ public class ConanBuildSession extends SimpleBuildServiceAdapter implements Mult
 
         arguments.add("create");
         arguments.add(this.params.getOrDefault(CONAN_RECIPE_PATH_KEY, "."));
-        arguments.add(this.params.get(CONAN_USER_KEY) + "/" + this.params.get(CONAN_CHANNEL_KEY));
+
+        if (this.params.containsKey(CONAN_APP_NAME_AND_VERSION_KEY)) {
+            arguments.add(String.format("%s@%s/%s", this.params.get(CONAN_APP_NAME_AND_VERSION_KEY),
+                this.params.get(CONAN_USER_KEY), this.params.get(CONAN_CHANNEL_KEY)));
+        } else {
+            arguments.add(this.params.get(CONAN_USER_KEY) + "/" + this.params.get(CONAN_CHANNEL_KEY));
+        }
 
         arguments.addAll(extraArgs);
 
