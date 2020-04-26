@@ -10,7 +10,7 @@ Features
 This Conan plugin makes it dead-simple to create Conan artifacts in the agent's local Conan cache. Sane defaults are
 used wherever possible, while still providing a variety of advanced features for more complex scenarios.
 
-For projects that need to built with a multiple different settings/options combinations, support for a file named
+For projects that need to be built with a multiple different settings/options combinations, support for a file named
 `conanopts.json` is provided. This file can be used to define a list of builds, each with different settings/options
 used, and the Conan plugin will invoke `conan create ...` for each different combination. Support for a CSV file
 defining the same information is coming soon.
@@ -36,7 +36,7 @@ This sample build configuration assumes the following:
 
 To begin with, we have a simple build configuration that contains three steps:
 
-1. The Conan remote repository list is configured to include any custom repositories needed, allowing the following to
+1. The Conan remote repository list is configured to include any custom repositories needed, allowing the following
    build steps to pull any private dependencies.
 2. The project is built for the TeamCity agent's native architecture.
 3. The project is built for TI's Sitara family of ARM processors.
@@ -46,7 +46,7 @@ testing of this plugin.)
 
 ![Screenshot of sample build steps][1]
 
-The simplest configuration is, indeed, quite simple. Device the user and channel for the
+The simplest configuration is, indeed, quite simple. Provideq the user and channel for the
 `conan create . <user>/<channel>` command, and the rest is figured out automatically.
 
 ![Screenshot of the most basic configuration][2]
