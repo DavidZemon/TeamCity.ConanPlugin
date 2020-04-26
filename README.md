@@ -62,8 +62,8 @@ grown accustomed to JetBrain's own Docker integration, as documented [here][5].
 ![Screenshot of a simple configuration but using Docker][4]
 
 
-[1]: https://raw.githubusercontent.com/wsbu/TeamCity.ConanPlugin/master/images/build_steps.png
-[2]: https://raw.githubusercontent.com/wsbu/TeamCity.ConanPlugin/master/images/simple_step.png
-[3]: https://raw.githubusercontent.com/wsbu/TeamCity.ConanPlugin/master/images/advanced_settings.png
-[4]: https://raw.githubusercontent.com/wsbu/TeamCity.ConanPlugin/master/images/simple_step_in_docker.png
+[1]: https://raw.githubusercontent.com/DavidZemon/TeamCity.ConanPlugin/master/images/build_steps.png
+[2]: https://raw.githubusercontent.com/DavidZemon/TeamCity.ConanPlugin/master/images/simple_step.png
+[3]: https://raw.githubusercontent.com/DavidZemon/TeamCity.ConanPlugin/master/images/advanced_settings.png
+[4]: https://raw.githubusercontent.com/DavidZemon/TeamCity.ConanPlugin/master/images/simple_step_in_docker.png
 [5]: https://www.jetbrains.com/help/teamcity/integrating-teamcity-with-docker.html
